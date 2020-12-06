@@ -1,0 +1,64 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: windowdotonload
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id='btn'>点击发送请求</button>
+    <p id='showText'></p>
+    <script>
+        let btn = document.getElementById('btn')
+        let pt = document.getElementById('showText')
+        btn.onclick = function () {
+            let xhr = new XMLHttpRequest()
+            // Get 请求
+            // xhr.open('GET', 'http://127.0.0.1:7001?a=100')
+            // xhr.send()
+
+            // xhr.onreadystatechange = function () {
+            //     if (xhr.readyState == 4) {
+            //         if (xhr.status >= 200 && xhr.status < 300) {
+            //             pt.innerText = xhr.responseText
+            //         }
+            //     }
+            // }
+            // POST 请求
+            xhr.open('POST', 'http://127.0.0.1:7001/postreq')
+
+            // 超时设置
+            xhr.timeout = 2000
+            // 超时的回调
+            xhr.ontimeout = function () {
+                alert("请求超时请稍后重试")
+            }
+            // POST请求传参方式
+            // 设置请求头
+            // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.send('a=100');
+
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        console.log(xhr)
+                        let data = JSON.parse(xhr.responseText)
+                        pt.innerText = data.data
+                    }
+                }
+            }
+
+        }
+    </script>
+</body>
+
+</html>
